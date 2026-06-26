@@ -1,10 +1,52 @@
-let apiQuotes = []
+const quoteContainer = document.getElementById("quote-container");
+const loader = document.getElementById("loader");
+const quoteText = document.getElementById("quote");
+const authorText = document.getElementById("author");
+const newQuoteBtn = document.getElementById("new-quote");
+const twitterBtn = document.getElementById("twitter-button");
+
+let apiQuotes = [];
+
+function showloader() {
+  loader.hidden = false;
+  quoteContainer.hidden = true;
+}
+function hideLoader() {
+  loader.hidden = true;
+  quoteContainer.hidden = false;
+}
+function newQuote() {
+  showloader();
+  const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
+
+  quote.author
+    ? (authorText.textContent = `- ${quote.author}`)
+    : (authorText.textContent = "Unknown");
+  if (quoteText.length > 120) {
+    quoteText.classList.add("long-quote");
+  } else {
+    quoteText.classList.remove("long-quote");
+  }
+  quoteText.textContent = quote.text;
+  hideLoader();
+}
+
 async function getQuotes() {
-const apiUrl = 'https://type.fit/api/quotes';
-try {
-  const response = await fetch(apiUrl);
+  const apiUrl = "https://jacintodesign.github.io/quotes-api/data/quotes.json";
+  try {
+    showloader();
+    const response = await fetch(apiUrl);
     apiQuotes = await response.json();
-.console.log(apiQuotes)  } catch (error) {
+    newQuote();
+  } catch (error) {
+    console.log("Whoops, no quote", error);
+  }
 }
+function tweet() {
+  const tweetUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - ${authorText.textContent}`;
+  window.open(tweetUrl, "_blank");
 }
- getQuotes();
+newQuoteBtn.addEventListener("click", newQuote);
+twitterBtn.addEventListener("click", tweet);
+// Run on load
+getQuotes();
