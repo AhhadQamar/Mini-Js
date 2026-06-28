@@ -6,11 +6,12 @@ const newQuoteBtn = document.getElementById("new-quote");
 const twitterBtn = document.getElementById("twitter-button");
 // Array to store the qutoes from the API
 let apiQuotes = [];
-
+// showing the loader and hiding the quote container
 function showloader() {
   loader.hidden = false;
   quoteContainer.hidden = true;
 }
+// hiding the loader and showing the quote container
 function hideLoader() {
   loader.hidden = true;
   quoteContainer.hidden = false;
