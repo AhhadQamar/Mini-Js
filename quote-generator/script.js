@@ -20,7 +20,6 @@ function hideLoader() {
 function newQuote() {
   showloader();
   const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
-
   quote.author
     ? (authorText.textContent = `- ${quote.author}`)
     : (authorText.textContent = "Unknown");
